@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { motion } from 'framer-motion';
 import getIcon from '../utils/iconUtils';
+import { createCompany } from '../services/companyService';
 
 const CompanyRegistration = () => {
   const navigate = useNavigate();
   const ArrowLeftIcon = getIcon('ArrowLeft');
   const BuildingIcon = getIcon('Building');
-  
+  const user = useSelector(state => state.user.user);
   const [formData, setFormData] = useState({
     companyName: '',
     industry: '',
@@ -18,7 +20,7 @@ const CompanyRegistration = () => {
     address: '',
     description: '',
   });
-  
+  const industries = ["Software Development", "Data Science", "Design", "Marketing", "Engineering", "Business"];
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
@@ -63,18 +65,39 @@ const CompanyRegistration = () => {
     return Object.keys(newErrors).length === 0;
   };
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     if (validateForm()) {
-      setIsSubmitting(true);
-      
-      // Simulate API call
-      setTimeout(() => {
+      try {
+        setIsSubmitting(true);
+        
+        // Prepare company data for API
+        const companyData = {
+          companyName: formData.companyName,
+          industry: formData.industry,
+          website: formData.website,
+          email: formData.email,
+          phone: formData.phone,
+          address: formData.address,
+          description: formData.description,
+          location: formData.location || 'Remote', // Default to Remote if not specified
+          // Apper requires a Name field
+          Name: formData.companyName,
+          // Set owner if user is logged in
+          Owner: user ? user.emailAddress : null
+        };
+        
+        // Create company record
+        const createdCompany = await createCompany(companyData);
+        
         toast.success('Company registered successfully!');
+        navigate('/dashboard');
+      } catch (error) {
+        toast.error('Failed to register company. Please try again.');
+      } finally {
         setIsSubmitting(false);
-        navigate('/');
-      }, 1500);
+      }
     } else {
       toast.error('Please fix the errors in the form');
     }
@@ -120,13 +143,19 @@ const CompanyRegistration = () => {
               
               <div>
                 <label className="block text-sm font-medium mb-1">Industry*</label>
-                <input
-                  type="text"
+                <select
                   name="industry"
                   value={formData.industry}
                   onChange={handleInputChange}
                   className={`input-field ${errors.industry ? 'border-secondary focus:ring-secondary' : ''}`}
-                />
+                >
+                  <option value="">Select Industry</option>
+                  {industries.map((industry, index) => (
+                    <option key={index} value={industry}>
+                      {industry}
+                    </option>
+                  ))}
+                </select>
                 {errors.industry && <p className="text-secondary text-sm mt-1">{errors.industry}</p>}
               </div>
               
@@ -167,12 +196,31 @@ const CompanyRegistration = () => {
               </div>
               
               <div>
+                <label className="block text-sm font-medium mb-1">Location</label>
+                <select
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  className="input-field"
+                >
+                  <option value="">Select Location</option>
+                  <option value="San Francisco, CA">San Francisco, CA</option>
+                  <option value="New York, NY">New York, NY</option>
+                  <option value="Remote">Remote</option>
+                  <option value="Chicago, IL">Chicago, IL</option>
+                  <option value="Boston, MA">Boston, MA</option>
+                  <option value="Austin, TX">Austin, TX</option>
+                </select>
+              </div>
+              
+              <div>
                 <label className="block text-sm font-medium mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
                   value={formData.address}
                   onChange={handleInputChange}
+                  rows="4"
                   className="input-field"
                 />
               </div>
