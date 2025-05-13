@@ -38,7 +38,7 @@ function App() {
                 transition={{ duration: 0.5 }}
                 className="text-primary"
               >
-                {getIcon('Briefcase')({ className: "h-7 w-7" })}
+                {React.createElement(getIcon('Briefcase'), { className: "h-7 w-7" })}
               </motion.div>
               <h1 className="text-xl font-bold flex items-center gap-1">
                 CareerBridge
