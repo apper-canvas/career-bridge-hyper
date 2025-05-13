@@ -11,8 +11,6 @@ import NotFound from './pages/NotFound';
 function App() {
   const [darkMode, setDarkMode] = useState(false);
   
-  const SunIcon = getIcon('Sun');
-  const MoonIcon = getIcon('Moon');
 
   useEffect(() => {
     // Check user preference
@@ -42,7 +40,7 @@ function App() {
               >
                 {getIcon('Briefcase')({ className: "h-7 w-7" })}
               </motion.div>
-              <h1 className="text-xl md:text-2xl font-bold bg-gradient-to-r from-primary to-primary-light dark:from-primary-light dark:to-primary bg-clip-text text-transparent">
+                {React.createElement(getIcon('Briefcase'), { className: "h-7 w-7" })}
                 CareerBridge
               </h1>
             </div>
@@ -57,7 +55,7 @@ function App() {
               </button>
             </div>
           </div>
-        </header>
+                {darkMode ? React.createElement(getIcon('Sun'), { className: "h-5 w-5 text-amber-400" }) : React.createElement(getIcon('Moon'), { className: "h-5 w-5 text-primary" })}
 
         {/* Main Content */}
         <main className="flex-grow">
