@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
 import getIcon from '../utils/iconUtils';
 
+  const navigate = useNavigate();
+  
 // Icons
 const SearchIcon = getIcon('Search');
 const FilterIcon = getIcon('SlidersHorizontal');
@@ -187,7 +190,10 @@ const MainFeature = ({ activeTab }) => {
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
         >
-          {/* Jobs/Internships Tab */}
+              <button 
+                className="btn btn-primary" 
+                onClick={() => navigate('/register/company')}
+              >Register Now</button>
           {activeTab === 'jobs' && (
             <div>
               {/* Search and Filter Bar */}
