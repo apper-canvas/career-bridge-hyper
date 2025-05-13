@@ -17,7 +17,10 @@ export default {
           light: '#FF9B9B',
           dark: '#E64545'
         },
-        accent: '#FFD166',
+        accent: {
+          DEFAULT: '#FFD166',
+          dark: '#E6B800'
+        },
         surface: {
           50: '#f8fafc',   // Lightest
           100: '#f1f5f9',
