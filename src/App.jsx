@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { motion } from 'framer-motion';
@@ -40,7 +40,7 @@ function App() {
               >
                 {getIcon('Briefcase')({ className: "h-7 w-7" })}
               </motion.div>
-                {React.createElement(getIcon('Briefcase'), { className: "h-7 w-7" })}
+              <h1 className="text-xl font-bold flex items-center gap-1">
                 CareerBridge
               </h1>
             </div>
@@ -51,11 +51,11 @@ function App() {
                 className="p-2 rounded-full bg-surface-100 dark:bg-surface-700 hover:bg-surface-200 dark:hover:bg-surface-600 transition-colors"
                 aria-label="Toggle dark mode"
               >
-                {darkMode ? <SunIcon className="h-5 w-5 text-amber-400" /> : <MoonIcon className="h-5 w-5 text-primary" />}
+                {darkMode ? React.createElement(getIcon('Sun'), { className: "h-5 w-5 text-amber-400" }) : React.createElement(getIcon('Moon'), { className: "h-5 w-5 text-primary" })}
               </button>
             </div>
           </div>
-                {darkMode ? React.createElement(getIcon('Sun'), { className: "h-5 w-5 text-amber-400" }) : React.createElement(getIcon('Moon'), { className: "h-5 w-5 text-primary" })}
+        </header>
 
         {/* Main Content */}
         <main className="flex-grow">
